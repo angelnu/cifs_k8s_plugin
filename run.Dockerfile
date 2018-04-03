@@ -1,6 +1,4 @@
-FROM flynn/busybox
-MAINTAINER Yann Hodique <yann.hodique@gmail.com>
-ENV UPDATED_AT 10-14-2016
+FROM alpine:latest
 
 COPY run.sh /tmp/bin/run.sh
 COPY mount.cifs /tmp/bin/mount.cifs

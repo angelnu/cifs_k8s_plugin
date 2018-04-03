@@ -117,7 +117,7 @@ unmount() {
         fi
         rmdir "${MNTPATH}" &> /dev/null
 
-        log '{"status": "Success"}'
+        log '{"status": "Success", "capabilities": { "attach": false, "selinuxRelabel": false }}'
         exit 0
 }
 
@@ -144,11 +144,11 @@ case "$op" in
         mount)
                 domount $*
                 ;;
-	unmount)
-		unmount $*
-		;;
-	*)
-		#usage
-	        log "{ \"status\": \"Not supported\" }"
-                exit 0
+        unmount)
+		            unmount $*
+		            ;;
+	      *)
+		            #usage
+	              log "{ \"status\": \"Not supported\" }"
+                exit 1
 esac

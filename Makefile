@@ -1,6 +1,6 @@
-IMAGE=fvigotti/cifs_k8s_plugin
+IMAGE=angelnu/cifs_k8s_plugin
 BUILDER=$(IMAGE)_builder
-VERSION := $(shell git describe --always --dirty --tags)
+VERSION := $(shell git describe --always --dirty --tags || echo 0.1)
 
 container:
 	docker build -f builder.Dockerfile -t $(BUILDER) .
