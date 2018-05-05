@@ -1,3 +1,1 @@
-#!/bin/sh
-
-make push
+build/build.sh
