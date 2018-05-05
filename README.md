@@ -1,10 +1,15 @@
-### status:
-tested and working on kubernetes 1.6.x ( dedicated ubuntu 16.04 servers ),
+# cifs pluging for kubernetes
+[![Downloads](https://img.shields.io/docker/pulls/angelnu/cifs_k8s_plugin.svg)](https://hub.docker.com/r/angelnu/cifs_k8s_plugin/)
+[![Build Status](https://travis-ci.org/angelnu/docker-cifs_k8s_plugin.svg?branch=master)](https://travis-ci.org/angelnu/docker-cifs_k8s_plugin)
 
+Provide a Kubernetes cifs for Kubernetes on [mutiple archs](https://hub.docker.com/r/angelnu/keepalived/tags):
+- arm
+- arm64
+- amd64
 
-## Build & Package Kubernetes cifs plugin with Dockerception
+Tested and working on kubernetes 1.10.x on arm and amd64
 
-Provide a Kubernetes cifs for CoreOS/Ubuntu/Fedora.. (for example) to use, optimized for speed.
+- Forked from https://github.com/fvigotti/cifs_k8s_plugin in order to add multi arch support
 
 ### Delivering plugin to a docker host:
 
@@ -25,15 +30,15 @@ After installing the plugin, restart the kubelet or the origin-node service so t
 ### important notes:
  - generated from a fork of -> https://github.com/sigma/cifs_k8s_plugin
  - getvolumename is not implemented because there is a bug in kube 1.6.x https://github.com/kubernetes/kubernetes/issues/44737
- - kubelet flags : 
+ - kubelet flags :
     - "--volume-plugin-dir=/etc/kubernetes/volumeplugins"
     - "--enable-controller-attach-detach=false"
  - controller manager flags:
     - "--flex-volume-plugin-dir=/etc/kubernetes/volumeplugins"
 
-- not sure if it's really true but seems that after the creation of the plugin directory (/etc/kubernetes/volumeplugins/fvigotti) 
+- not sure if it's really true but seems that after the creation of the plugin directory (/etc/kubernetes/volumeplugins/fvigotti)
   kubelet needed a restart, hot-changes to plugin source can be done in place without further restarts
-  
+
 
 ### Sample usage
 
@@ -109,15 +114,15 @@ kubectl exec cc -- df ; ls -l /data
 ```
 
 5. don't panic  
-if something goes wrong , 
+if something goes wrong ,
 look at the kubelet log of host where the pod has been deployed,
  the cifs plugin is a bash script that can be modified in-place on that host ( add affinity to reschedule on same node )
- 
- 
- 
+
+
+
 ### Docker building dockers - keeping them small
 
-docker build process split into a 'builder' docker and a 'runtime' 
+docker build process split into a 'builder' docker and a 'runtime'
 docker to keep final docker image as small as possible.
 
 To build the runtime docker image, clone this project and then
@@ -135,5 +140,3 @@ $ make push
 - https://github.com/sigma/cifs_k8s_plugin
 
 *NOTE*: this repository cannot be built automatically by docker hub.
-
-

@@ -9,7 +9,7 @@ env:
   matrix:
   - DOCKER_ARCH=amd64
   - DOCKER_ARCH=arm64
-  - DOCKER_ARCH=arm
+  #- DOCKER_ARCH=arm Build of jq hangs on qemu
 
 script:
 - ./build/travis_build.sh
