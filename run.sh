@@ -6,7 +6,3 @@ rm -rf "$TARGET"/*
 cp jq "$TARGET/jq"
 cp mount.cifs "$TARGET/mount.cifs"
 cp cifs.sh "$TARGET/cifs"
-
-while true; do
-	sleep 3600;
-done
