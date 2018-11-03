@@ -7,12 +7,16 @@ ENV ARCH=$arch
 COPY qemu/qemu-$ARCH-static* /usr/bin/
 
 #install required libraries & clean up to keep thin layer
-ENV PKGS="alpine-sdk libtool automake autoconf"
+# libcap-dev    -> drop capabilities
+# samba-dev     -> cifsacl and cifs.idmap
+# keyutils-dev  -> cifs.idmap cifs.upcall cifscreds and cifscreds PAM module <- it does not work -> disable
+# krb5 krb5-dev -> cifs.upcall <- it does not work -> disable
+ENV PKGS="alpine-sdk libtool automake autoconf libcap-dev samba-dev"
 RUN apk add --no-cache \
       $PKGS \
 #download & make jq from source
     && echo "Downloading jq" \
-    && (cd /tmp; curl -Lo jq.tar.gz https://github.com/stedolan/jq/releases/download/jq-1.5/jq-1.5.tar.gz) \
+    && (cd /tmp; curl -Lo jq.tar.gz https://github.com/stedolan/jq/releases/download/jq-1.6/jq-1.6.tar.gz) \
     && (cd /tmp; mkdir jq; tar -xf jq.tar.gz -C jq --strip-components=1; rm jq.tar.gz) \
     && echo "Building jq" \
     && (cd /tmp/jq/; autoreconf -i && ./configure --enable-all-static && make -j) \
@@ -20,7 +24,7 @@ RUN apk add --no-cache \
     && cp /tmp/jq/jq /usr/local/bin/ \
 #download & make mount.cifs from source
     && echo "Downloading cifs" \
-    && (cd /tmp; curl -Lo cifs-utils.tar.bz2 http://ftp.samba.org/pub/linux-cifs/cifs-utils/cifs-utils-6.5.tar.bz2) \
+    && (cd /tmp; curl -Lo cifs-utils.tar.bz2 http://ftp.samba.org/pub/linux-cifs/cifs-utils/cifs-utils-6.8.tar.bz2) \
     && (cd /tmp; mkdir cifs-utils; tar -xf cifs-utils.tar.bz2 -C cifs-utils --strip-components=1; rm cifs-utils.tar.bz2) \
     && echo "Building cifs" \
     && (cd /tmp/cifs-utils/; ./configure LDFLAGS="-static" && make -j) \
