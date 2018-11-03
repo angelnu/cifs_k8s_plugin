@@ -16,7 +16,7 @@ RUN apk add --no-cache \
       $PKGS \
 #download & make jq from source
     && echo "Downloading jq" \
-    && (cd /tmp; curl -Lo jq.tar.gz https://github.com/stedolan/jq/releases/download/jq-1.6/jq-1.6.tar.gz) \
+    && (cd /tmp; curl -Lo jq.tar.gz https://github.com/stedolan/jq/releases/download/jq-1.5/jq-1.5.tar.gz) \
     && (cd /tmp; mkdir jq; tar -xf jq.tar.gz -C jq --strip-components=1; rm jq.tar.gz) \
     && echo "Building jq" \
     && (cd /tmp/jq/; autoreconf -i && ./configure --enable-all-static && make -j) \
